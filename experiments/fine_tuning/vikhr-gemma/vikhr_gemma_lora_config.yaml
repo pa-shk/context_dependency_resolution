@@ -1,0 +1,26 @@
+model_name: Vikhrmodels/Vikhr-Gemma-2B-instruct
+prompt: 'Перепиши неполное высказывание на основе истории диалога. Твой ответ должен
+  содержать только переписанное неполное высказвание. '
+sft_args:
+  packing: true
+  report_to: wandb
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 512
+  num_train_epochs: 10
+  optim: paged_adamw_8bit
+  learning_rate: 0.003
+  eos_token: <end_of_turn>
+  do_eval: true
+  eval_strategy: steps
+  eval_steps: 1
+  logging_steps: 1
+lora_args:
+  r: 1
+  target_modules:
+  - q_proj
+  - v_proj
+  task_type: CAUSAL_LM
+inference_args:
+  max_new_tokens: 500
+  num_beams: 2

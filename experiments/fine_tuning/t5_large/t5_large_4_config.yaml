@@ -1,0 +1,22 @@
+model_name: "ai-forever/ruT5-large"
+training_args:
+  eval_strategy: "epoch"
+  learning_rate: 4e-4
+  batch_size: 8
+  gradient_accumulation_steps: 64
+  weight_decay: 0.01
+  save_total_limit: 3
+  num_train_epochs: 20
+  predict_with_generate: true
+  fp16: false
+  push_to_hub: false
+  logging_steps: 10
+  overwrite_output_dir: true
+lora_args:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules: 
+   - "q"
+   - "v"
+  bias: "none"

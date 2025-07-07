@@ -1,0 +1,20 @@
+model_name: Vikhrmodels/Vikhr-Gemma-2B-instruct
+sft_args:
+  packing: true
+  report_to: wandb
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 256
+  num_train_epochs: 5
+  optim: paged_adamw_8bit
+  learning_rate: 2e-03
+  eos_token: <end_of_turn>
+  do_eval: true
+  eval_strategy: steps
+  eval_steps: 1
+  logging_steps: 1
+p_encoder_args:
+  task_type: "CAUSAL_LM"
+  num_virtual_tokens: 20
+  encoder_hidden_size: 1024
+  token_dim: 2304
