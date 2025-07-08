@@ -198,6 +198,6 @@ Exploring approaches that frame IUR as edit matrix prediction rather than seq2se
    <img width="1118" alt="image" src="https://github.com/user-attachments/assets/bd0a04fc-27f4-4b06-abfc-bc72210d0c08" />
 
 ## Contacts 📞
-[tg](https://t.me/pa-shk)
-[linkedin](https://www.linkedin.com/in/pa-shk)
-[mail](mailto:pvlshknv@gmail.com)
+- [tg](https://t.me/pa-shk)
+- [linkedin](https://www.linkedin.com/in/pa-shk)
+- [mail](mailto:pvlshknv@gmail.com)
