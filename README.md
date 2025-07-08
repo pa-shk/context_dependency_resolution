@@ -47,6 +47,14 @@ In this project, I compare different methods to solve the task of Context Depend
 
 ## EDA 📊
 
+| Field          | Value                                      |
+|----------------|--------------------------------------------|
+| **Conversation History**| 1. Привет, что делаешь? 2. Здравствуйте, я вырезаю фигурки из под банок Пепси, а вы?  3. На паре сижу, учусь на репортёра.  4. Репортер - это журналист? |
+| **Dia_ID_hash**| `dia_36ab3b3e`                             |
+| **Utt_ID_hash**| `utt_7b871804`                             |
+| **Phrase**     | Да, есть увлечения?                        |
+| **Rewrite**    | Да, репортер это журналист, у тебя есть увлечения? |
+
 **Length distribution of initial and rewritten messages**
 
 ![image](https://github.com/user-attachments/assets/e54ef9c6-294a-41ad-ab04-5fca175f483e)
