@@ -70,6 +70,18 @@ In this project, I compare different methods to solve the task of Context Depend
 
 
 ## Proposed Solution 🚀
+```text
+Conversation History --------------->
+                                     |
+                                     |
+                                     ----------
+                                     | Seq2seq | ------------> Rewrite
+                                     ---------- 
+                                     |
+                                     |
+Phrase ----------------------------->
+```
+                                        
 
 Comparison between API-based LLM prompting vs. local model fine-tuning:
 
@@ -146,7 +158,7 @@ $$
 - p-tuning
   - Effective batch size: 256
   - LR: 2e-03
-  - \# epochs: 10
+  - \# epochs: 4
   - \# virtual_tokens: 20
   - encoder_hidden_size: 1024
   - token_dim: 2304
