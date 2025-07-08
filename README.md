@@ -151,6 +151,7 @@ $$
 | 3                 | 16     | 32          | 2e-3        | 256                      | 15                       |
 | 4                 | 16     | 32          | 2e-3        | 512                      | 14                       |
 
+
 <img width="468" alt="image" src="https://github.com/user-attachments/assets/260631b9-987e-48d5-b42a-082e95f95bff" />
 
 
@@ -172,7 +173,9 @@ $$
   - Iora_r: 1
   - Iora_a: 2
 
+
 <img width="712" alt="image" src="https://github.com/user-attachments/assets/64e801d8-e57f-4766-9baf-8af9f78315e0" />
+
 
 | model name                          | **rut5-base**          | **rut5-large**     | **rut5-large**     | **rut5-large**     | **rut5-large**     | **Vikhr-Gemma-2B-instruct** | **Vikhr-Gemma-2B-instruct** |
 |---------------------------------|------------------------|------------------------|------------------------|------------------------|------------------------|-----------------------------|-----------------------------|
