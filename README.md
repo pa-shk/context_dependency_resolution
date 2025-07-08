@@ -20,7 +20,9 @@ In this project, I compare different methods to solve the task of Context Depend
 - Model fine-tuning:
   - Transformers 🤗
   - peft
-  - trl 
+  - trl
+- Quantization
+  - bitsandbytes
 - MLOps, experiments logging:
   - Weights & Biases (WandB) 🪄
   - omegaconf
@@ -44,25 +46,14 @@ In this project, I compare different methods to solve the task of Context Depend
 🔧 **Rewritten User Query**: А сколько пачек масла было продано 1 апреля в Ульяновске?  
 
 ## EDA 📊
-number of dialogs: 1048
-number of phrases: 5514
-
-**Length distribution of dialog history**
-
-         in characters     in words
-mean      363.195140
-std       302.450948
-min         7.000000
-25%       132.000000
-50%       299.000000
-75%       506.000000
-max      2605.000000
-
 
 **Length distribution of initial and rewritten messages**
 
-![image](https://github.com/user-attachments/assets/5461aab5-63e6-423b-8082-18613b5666aa)
+![image](https://github.com/user-attachments/assets/e54ef9c6-294a-41ad-ab04-5fca175f483e)
 
+**Length distribution of dialog history**
+
+![image](https://github.com/user-attachments/assets/5eb2f18b-8f81-4c07-b4b2-0a12353e585d)
 
 **PoS distribution of tokens in initial and rewritten messages**
 
@@ -121,31 +112,61 @@ $$
 
 **Experiments with fine-tuning**
 
-*rut5-base fine-tuning*
+***rut5-base*** *fine-tuning*
+
+- \# epochs: 8
+- LR: 2e-4
+- Effective batch size: 256
 
 <img width="319" alt="image" src="https://github.com/user-attachments/assets/f56b6140-1dd0-42c0-8f5f-a2154a4e43b1" />
 
-*rut5-large fine-tuning*
+
+***rut5-large*** *fine-tuning*
+| Experiment №| Iora_r | Iora_a | LR | Effective batch size| # epochs |
+|-------------------:|:------:|:-----------:|:-----------:|:------------------------:|:------------------------:|
+| 1                 | 4      | 8           | 2e-4        | 256                      | 30                       |
+| 2                 | 16     | 32          | 2e-4        | 256                      | 20                       |
+| 3                 | 16     | 32          | 2e-3        | 256                      | 15                       |
+| 4                 | 16     | 32          | 2e-3        | 512                      | 14                       |
 
 <img width="468" alt="image" src="https://github.com/user-attachments/assets/260631b9-987e-48d5-b42a-082e95f95bff" />
 
-*Vikhr-Gemma-2B-instruct fine-tuning (p-tuning and QLoRA)*
+
+
+***Vikhr-Gemma-2B-instruct*** *fine-tuning (p-tuning and QLoRA)*
+
+- p-tuning
+  - Effective batch size: 256
+  - LR: 2e-03
+  - \# epochs: 10
+  - \# virtual_tokens: 20
+  - encoder_hidden_size: 1024
+  - token_dim: 2304
+
+- QLoRA
+  - Effective batch size: 512
+  - LR: 2e-03
+  - \# epochs: 10
+  - Iora_r: 1
+  - Iora_a: 2
+
 <img width="712" alt="image" src="https://github.com/user-attachments/assets/64e801d8-e57f-4766-9baf-8af9f78315e0" />
 
-| Название модели               | rut5-base       | rut5-large (1) | rut5-large (2) | rut5-large (3) | rut5-large (4) |
-|-------------------------------|-----------------|----------------|----------------|----------------|----------------|
-| Способ дообучения             | Полный файнтонит | LoRA файнтонит | LoRA файнтонит | LoRA файнтонит | LoRA файнтонит |
-| Количество параметров         | 222 903 552     | 742 386 688    | 742 386 688    | 742 386 688    | 742 386 688    |
-| Количество обучаемых параметров | 222 903 552     | 1 179 648      | 4 718 592      | 4 718 592      | 4 718 592      |
-| bleu_score                    | 73.34           | 73.33          | **73.87**      | 73.17          | 73.72          |
-| rouge-1                       | 0.734           | 0.740          | 0.732          | **0.734**      | 0.742          |
-| rouge-2                       | 0.618           | 0.643          | 0.628          | 0.625          | 0.634          |
-| rouge-3                       | 0.530           | **0.565**      | 0.551          | 0.539          | 0.551          |
-| rouge-4                       | 0.465           | **0.493**      | 0.482          | 0.471          | 0.476          |
-| rf_score_1                    | 0.407           | 0.285          | 0.338          | **0.431**      | 0.401          |
-| rf_score_2                    | 0.324           | 0.215          | 0.260          | **0.337**      | 0.323          |
-| rf_score_3                    | 0.289           | 0.188          | 0.230          | **0.303**      | 0.292          |
-| rf_score_4                    | 0.270           | 0.176          | 0.213          | **0.282**      | 0.274          |
+| model name                          | **rut5-base**          | **rut5-large**     | **rut5-large**     | **rut5-large**     | **rut5-large**     | **Vikhr-Gemma-2B-instruct** | **Vikhr-Gemma-2B-instruct** |
+|---------------------------------|------------------------|------------------------|------------------------|------------------------|------------------------|-----------------------------|-----------------------------|
+| fine-tuning                     | full                   | LoRA (1)                | LoRA (2)                  | LoRA (3)                   | LoRA (4)                  | P-tuning                    | QLoRA            |
+| # parameters                    | 222 903 552            | 742 386 688            | 742 386 688            | 742 386 688            | 742 386 688            | 2 615 635 968               | 2 614 341 888               |
+| # trainable parameters          | 222 903 552            | 1 179 648              | 4 718 592              | 4 718 592              | 4 718 592              | 1 294 080                   | 3 194 880                   |
+| bleu_score                      | 73.34                  | 73.33                  | 73.87                  | 73.17                  | 73.72                  | 76.94                       | **81.58**                   |
+| rouge-1                         | 0.734                  | 0.740                  | 0.732                  | 0.734                  | 0.742                  | 0.749                       | **0.828**                   |
+| rouge-2                         | 0.618                  | 0.643                  | 0.628                  | 0.625                  | 0.634                  | 0.669                       | **0.774**                   |
+| rouge-3                         | 0.530                  | 0.565                  | 0.551                  | 0.539                  | 0.551                  | 0.611                       | **0.734**                   |
+| rouge-4                         | 0.465                  | 0.493                  | 0.482                  | 0.471                  | 0.476                  | 0.542                       | **0.692**                   |
+| rf_score_1                      | **0.407**              | 0.285                  | 0.338                  | 0.431                  | 0.401                  | 0.302                       | 0.129                       |
+| rf_score_2                      | **0.324**              | 0.215                  | 0.260                  | 0.337                  | 0.323                  | 0.235                       | 0.102                       |
+| rf_score_3                      | **0.289**              | 0.188                  | 0.230                  | 0.303                  | 0.292                  | 0.206                       | 0.090                       |
+| rf_score_4                      | **0.270**              | 0.176                  | 0.213                  | 0.282                  | 0.274                  | 0.190                       | 0.084                       |
+
 
 ## Future Research 🔨
 Exploring approaches that frame IUR as edit matrix prediction rather than seq2seq. Key benefits include faster parallel operations versus autoregressive generation.
