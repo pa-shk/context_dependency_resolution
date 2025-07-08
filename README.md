@@ -46,6 +46,7 @@ In this project, I compare different methods to solve the task of Context Depend
 🔧 **Rewritten User Query**: А сколько пачек масла было продано 1 апреля в Ульяновске?  
 
 ## EDA 📊
+**Data sample**
 
 | Field          | Value                                      |
 |----------------|--------------------------------------------|
@@ -75,11 +76,11 @@ Conversation History --------------->
                                      |
                                      |
                                      ----------
-                                     | Seq2seq | ------------> Rewrite
+                                     | Seq2seq | ------------> Rewritten Phrase
                                      ---------- 
                                      |
                                      |
-Phrase ----------------------------->
+Initial Phrase ---------------------->
 ```
                                         
 
@@ -117,9 +118,9 @@ $$
 
 **Experiments with prompting**
 
-| Metrica       | Llama-3.3-70B-Instruct |      Llama-3.3-70B-Instruct    | gpt-4o-mini    |    gpt-4o-mini   | DeepSeek-V3    |   DeepSeek-V3       | DeepSeek-R1    | DeepSeek-R1 |
+| Model       | Llama-3.3-70B-Instruct |      Llama-3.3-70B-Instruct    | gpt-4o-mini    |    gpt-4o-mini   | DeepSeek-V3    |   DeepSeek-V3       | DeepSeek-R1    | DeepSeek-R1 |
 |-----------------|------------------------|----------------|----------------|----------------|----------------|----------------|----------------|----------------|
-|  | **Zero-shot**         | **Few-shot**   | **Zero-shot**  | **Few-shot**   | **Zero-shot**  | **Few-shot**   | **Zero-shot**  | **Few-shot**   |
+| prompting  | **Zero-shot**         | **Few-shot**   | **Zero-shot**  | **Few-shot**   | **Zero-shot**  | **Few-shot**   | **Zero-shot**  | **Few-shot**   |
 | bleu_score      | 46.45                 | 51.33          | 63.16          | **63.63**      | 59.86          | 37.34          | 35.08          | 41.76          |
 | rouge-1         | 0.575                 | 0.586          | 0.622          | **0.643**      | 0.617          | 0.484          | 0.556          | 0.561          |
 | rouge-2         | 0.445                 | 0.436          | 0.489          | 0.488          | **0.496**      | 0.315          | 0.382          | 0.374          |
@@ -142,8 +143,9 @@ $$
 
 
 ***rut5-large*** *fine-tuning*
+
 | Experiment №| Iora_r | Iora_a | LR | Effective batch size| # epochs |
-|-------------------:|:------:|:-----------:|:-----------:|:------------------------:|:------------------------:|
+|-------------------|------|-----------|-----------|------------------------|------------------------:|
 | 1                 | 4      | 8           | 2e-4        | 256                      | 30                       |
 | 2                 | 16     | 32          | 2e-4        | 256                      | 20                       |
 | 3                 | 16     | 32          | 2e-3        | 256                      | 15                       |
@@ -198,6 +200,6 @@ Exploring approaches that frame IUR as edit matrix prediction rather than seq2se
    <img width="1118" alt="image" src="https://github.com/user-attachments/assets/bd0a04fc-27f4-4b06-abfc-bc72210d0c08" />
 
 ## Contacts 📞
-- [tg](https://t.me/pa-shk)
-- [linkedin](https://www.linkedin.com/in/pa-shk)
-- [mail](mailto:pvlshknv@gmail.com)
+📲 [tg](https://t.me/pa-shk)  
+💼 [linkedin](https://www.linkedin.com/in/pa-shk)  
+📧 [mail](mailto:pvlshknv@gmail.com)
